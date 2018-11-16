@@ -17,3 +17,54 @@ ex2 = :(x + 3y)
 Meta.show_sexpr(ex2)
 
 Meta.parse("x+3y")
+
+ex = :(x + 3x^2)
+
+# dump(ex)
+#
+# function traverse!(ex::Expr)
+#
+#     args = ex.args
+#
+#     for i in 1:length(args)
+#
+#         if args[i] == :x
+#             args[i] = :(x+1)
+#         end
+#
+#     end
+#
+# end
+
+ex = :(x + 3x^2)
+
+# function traverse!(ex::Expr)
+#
+#     args = ex.args
+#
+#     for i in 1:length(args)
+#         @show i, args[i]
+#         if args[i] == :x
+#             args[i] = :(x+1)
+#         end
+#     end
+# end
+
+
+Meta.show_sexpr(ex)
+
+function traverse!(ex::Expr)
+
+    args = ex.args
+
+    for i in 1:length(args)
+        @show i, args[i]
+
+        if isa(args[i], Expr)
+            traverse!(args[i])
+
+        elseif args[i] == :x
+            args[i] = :(x+1)
+        end
+    end
+end
