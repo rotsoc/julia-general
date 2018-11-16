@@ -68,3 +68,16 @@ function traverse!(ex::Expr)
         end
     end
 end
+
+traverse(ex) = ex  # generally do nothing
+traverse(ex::Symbol) = ex==:x ? :(x+1) : ex # for the symbol :x make it :(x+1)
+traverse(ex::Expr) = Expr(:call,traverse.(ex.args)...) # Expressions are done recursively
+
+
+traverse!(ex) = ex  # generally do nothing
+traverse!(ex::Symbol) = ex==:x ? :(x+1) : ex # for the symbol :x make it :(x+1)
+traverse!(ex::Expr) = (ex.args.=traverse!.(ex.args); ex)
+
+ex = :(x^2+1)
+traverse!(ex)
+ex
