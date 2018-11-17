@@ -81,3 +81,23 @@ traverse!(ex::Expr) = (ex.args.=traverse!.(ex.args); ex)
 ex = :(x^2+1)
 traverse!(ex)
 ex
+
+# Exercise: Make the traverse! function more general,
+# to replace x by an arbitrary expression that is another argument of the function.
+
+function traverse!(ex::Expr, ex2::Expr)
+    args = ex.args
+    for i in 1:length(args)
+        @show i, args[i]
+
+        if isa(args[i], Expr)
+            traverse!(args[i],ex2)
+
+        elseif args[i] == :x
+            args[i] = ex2
+        end
+    end
+end
+
+function Dollar(ex::Expr)
+end
