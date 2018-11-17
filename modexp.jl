@@ -1,5 +1,5 @@
 function modexp(x,y,N)
-    # Input: wo n-bit integers x and N, an integer exponent y
+    # Input: two n-bit integers x and N, an integer exponent y
     # Output: xʸ mod N
 
     if y==0
