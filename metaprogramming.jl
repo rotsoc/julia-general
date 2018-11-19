@@ -101,3 +101,27 @@ end
 
 function Dollar(ex::Expr)
 end
+
+function wrap_literals(ex::Expr,f::Symbol)
+    println("Entering!")
+    @show ex
+    args = ex.args
+    for i in 1:length(args)
+        @show i, args[i]
+        args[i] = wrap_literals(args[i], f)
+    end
+    return ex
+end
+
+wrap_literals(x::Number, f::Symbol) = :($f($x))
+wrap_literals(x,f) = x # fall-back method
+
+p_5(x) = (x-1) * (x-2) * (x-3) * (x-4) * (x-5)
+
+function wp(n::Int)
+    ex = :(x-$n)
+    for i=n-1:-1:1
+        ex = :($ex*(x-$i))
+    end
+    return ex
+end
