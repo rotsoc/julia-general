@@ -125,3 +125,19 @@ function wp(n::Int)
     end
     return ex
 end
+
+@eval function fp_4(x)
+    $(wp(4))
+end
+
+macro simple(ex)
+    println(ex)
+    println(typeof(ex))
+    show(dump(ex))
+    return ex
+end
+
+macro wrap(f, ex)
+    new_ex = wrap_literals(ex, f)
+    return new_ex
+end

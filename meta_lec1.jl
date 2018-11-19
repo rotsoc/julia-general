@@ -29,3 +29,7 @@ function wp(n::Int)
     end
     return ex
 end
+
+@eval function fp_4(x)
+    $(wp(4))
+end
